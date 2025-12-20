@@ -102,6 +102,7 @@
             font-size: 24px;
             color: #333;
             cursor: pointer;
+            padding: 5px;
         }
         
         /* 헤더 섹션 */
@@ -110,6 +111,7 @@
             color: white;
             padding: 60px 0 40px;
             text-align: center;
+            margin-top: 0;
         }
         
         .main-title {
@@ -377,11 +379,16 @@
             /* 모바일 네비게이션 */
             .mobile-menu-btn {
                 display: block;
+                position: absolute;
+                right: 20px;
+                top: 50%;
+                transform: translateY(-50%);
             }
             
             .nav-menu {
-                position: fixed;
-                top: 70px;
+                display: none;
+                position: absolute;
+                top: 100%;
                 left: 0;
                 width: 100%;
                 background-color: white;
@@ -389,15 +396,12 @@
                 align-items: center;
                 padding: 20px 0;
                 box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-                transform: translateY(-100%);
-                opacity: 0;
-                transition: all 0.3s ease;
-                z-index: 999;
+                z-index: 1000;
+                margin: 0;
             }
             
             .nav-menu.active {
-                transform: translateY(0);
-                opacity: 1;
+                display: flex;
             }
             
             .nav-menu li {
@@ -410,6 +414,12 @@
                 display: block;
                 padding: 12px 20px;
                 font-size: 16px;
+                margin: 0;
+            }
+            
+            .nav-container {
+                position: relative;
+                padding: 15px 60px 15px 20px;
             }
         }
         
@@ -432,7 +442,7 @@
             }
             
             .nav-container {
-                padding: 10px 15px;
+                padding: 10px 50px 10px 15px;
             }
             
             .nav-logo img {
@@ -448,9 +458,6 @@
             <div class="nav-logo">
                 <img src="logo.png" alt="에듀포레 로고" 
                      onerror="this.src='https://via.placeholder.com/150x50/0d47a1/FFFFFF?text=EDU-FOREST'">
-                <button class="mobile-menu-btn" id="mobileMenuBtn">
-                    <i class="fas fa-bars"></i>
-                </button>
             </div>
             
             <ul class="nav-menu" id="navMenu">
@@ -461,6 +468,10 @@
                 <li><a href="https://thebestys.github.io/EDS/" target="_blank">Ed on K</a></li>
                 <li><a href="https://thebestys.github.io/Edufore5K/" target="_blank">K-Biz</a></li>
             </ul>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </nav>
     
@@ -557,8 +568,13 @@
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
             const navMenu = document.getElementById('navMenu');
             
-            mobileMenuBtn.addEventListener('click', function() {
+            // 버튼 클릭 이벤트 - 메뉴 토글만 수행
+            mobileMenuBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
                 navMenu.classList.toggle('active');
+                
+                // 햄버거 메뉴 아이콘 변경
                 const icon = mobileMenuBtn.querySelector('i');
                 if (navMenu.classList.contains('active')) {
                     icon.classList.remove('fa-bars');
@@ -580,6 +596,19 @@
                         icon.classList.add('fa-bars');
                     }
                 });
+            });
+            
+            // 문서 클릭 시 모바일 메뉴 닫기
+            document.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768 && 
+                    !navMenu.contains(e.target) && 
+                    !mobileMenuBtn.contains(e.target) &&
+                    navMenu.classList.contains('active')) {
+                    navMenu.classList.remove('active');
+                    const icon = mobileMenuBtn.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
             });
             
             // 영상 자동 재생 설정
