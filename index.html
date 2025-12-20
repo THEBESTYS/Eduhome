@@ -26,6 +26,84 @@
             padding: 0 20px;
         }
         
+        /* 네비게이션 바 */
+        .navbar {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+        
+        .nav-logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-logo img {
+            height: 50px;
+            margin-right: 20px;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-menu li {
+            margin-left: 25px;
+        }
+        
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            font-size: 16px;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-menu a:hover {
+            color: #0d47a1;
+            background-color: #f0f7ff;
+        }
+        
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background-color: #0d47a1;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-menu a:hover::after {
+            width: 80%;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #333;
+            cursor: pointer;
+        }
+        
         /* 헤더 섹션 */
         .header-section {
             background: linear-gradient(135deg, #0d47a1 0%, #1976d2 100%);
@@ -258,6 +336,11 @@
             .image-placeholder {
                 height: 400px;
             }
+            
+            .nav-menu a {
+                font-size: 14px;
+                padding: 6px 10px;
+            }
         }
         
         @media (max-width: 768px) {
@@ -290,6 +373,44 @@
             .contact-info li {
                 justify-content: center;
             }
+            
+            /* 모바일 네비게이션 */
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+                transform: translateY(-100%);
+                opacity: 0;
+                transition: all 0.3s ease;
+                z-index: 999;
+            }
+            
+            .nav-menu.active {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            
+            .nav-menu li {
+                margin: 10px 0;
+                width: 100%;
+                text-align: center;
+            }
+            
+            .nav-menu a {
+                display: block;
+                padding: 12px 20px;
+                font-size: 16px;
+            }
         }
         
         @media (max-width: 480px) {
@@ -309,10 +430,40 @@
                 font-size: 1.1rem;
                 padding: 12px 30px;
             }
+            
+            .nav-container {
+                padding: 10px 15px;
+            }
+            
+            .nav-logo img {
+                height: 40px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- 네비게이션 바 -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="nav-logo">
+                <img src="logo.png" alt="에듀포레 로고" 
+                     onerror="this.src='https://via.placeholder.com/150x50/0d47a1/FFFFFF?text=EDU-FOREST'">
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="https://thebestys.github.io/spacebomul/" target="_blank">XR K-Pop & Brew</a></li>
+                <li><a href="https://thebestys.github.io/Kpophouse/" target="_blank">K-Pop House 크레스트</a></li>
+                <li><a href="https://w-kpop.com/" target="_blank">World K-Pop Center</a></li>
+                <li><a href="https://thebestys.github.io/WKAISchool/" target="_blank">World K-AI School</a></li>
+                <li><a href="https://thebestys.github.io/EDS/" target="_blank">Ed on K</a></li>
+                <li><a href="https://thebestys.github.io/Edufore5K/" target="_blank">K-Biz</a></li>
+            </ul>
+        </div>
+    </nav>
+    
     <!-- 헤더 섹션: All about K-Culture -->
     <section class="header-section">
         <div class="container">
@@ -332,8 +483,10 @@
     <section class="video-section">
         <div class="container">
             <div class="video-container">
-                <video class="culture-video" controls poster="https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&q=80">
+                <!-- 영상 자동 재생 설정: muted 속성 추가, controls 제거, autoplay 추가 -->
+                <video class="culture-video" autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&q=80">
                     <source src="culture-video.mp4" type="video/mp4">
+                    <source src="culture-video.webm" type="video/webm">
                     Your browser does not support the video tag.
                 </video>
                 <div class="video-placeholder" style="display:none;">
@@ -399,10 +552,64 @@
     </footer>
     
     <script>
-        // 영상과 이미지 플레이스홀더 처리
+        // 모바일 메뉴 토글
         document.addEventListener('DOMContentLoaded', function() {
-            // 영상 플레이스홀더 처리
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const navMenu = document.getElementById('navMenu');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+                const icon = mobileMenuBtn.querySelector('i');
+                if (navMenu.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+            
+            // 메뉴 항목 클릭 시 모바일 메뉴 닫기
+            const menuItems = navMenu.querySelectorAll('a');
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    if (window.innerWidth <= 768) {
+                        navMenu.classList.remove('active');
+                        const icon = mobileMenuBtn.querySelector('i');
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+            });
+            
+            // 영상 자동 재생 설정
             const video = document.querySelector('.culture-video');
+            
+            // 자동 재생을 위한 설정
+            video.autoplay = true;
+            video.muted = true;
+            video.playsInline = true;
+            
+            // 자동 재생 시도
+            const playPromise = video.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    // 자동 재생 성공
+                    console.log('영상 자동 재생 성공');
+                }).catch(error => {
+                    // 자동 재생 실패 시 사용자 상호작용 필요 메시지 표시
+                    console.log('영상 자동 재생 실패:', error);
+                    
+                    // 사용자가 클릭할 때 영상 재생 시작
+                    document.body.addEventListener('click', function initVideoPlay() {
+                        video.play();
+                        document.body.removeEventListener('click', initVideoPlay);
+                    });
+                });
+            }
+            
+            // 영상 플레이스홀더 처리
             const videoPlaceholder = document.querySelector('.video-placeholder');
             
             video.addEventListener('error', function() {
@@ -418,9 +625,6 @@
                 image.style.display = 'none';
                 if(imagePlaceholder) imagePlaceholder.style.display = 'flex';
             });
-            
-            // 영상 자동 재생 방지
-            video.controls = true;
         });
     </script>
 </body>
